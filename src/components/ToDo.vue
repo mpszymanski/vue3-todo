@@ -10,59 +10,59 @@
 </template>
 
 <script>
-import ToDoForm from './ToDoForm.vue'
-import ToDoList from './ToDoList.vue'
+import ToDoForm from "./ToDoForm.vue";
+import ToDoList from "./ToDoList.vue";
 
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { reactive } from "@vue/reactivity";
 
 export default {
   components: { ToDoForm, ToDoList },
-  name: 'ToDo',
+  name: "ToDo",
   setup() {
     const tasks = reactive([
       {
         id: uuidv4(),
-        name: 'Task 1',
-        isDone: true,
+        name: "Task 1",
+        isDone: true
       },
       {
         id: uuidv4(),
-        name: 'Task 2',
-        isDone: false,
+        name: "Task 2",
+        isDone: false
       }
-    ])
+    ]);
 
-    const addTask = (taskName) => {
+    const addTask = taskName => {
       tasks.push({
         id: uuidv4(),
         name: taskName,
-        isDone: false,
-      })
-    }
+        isDone: false
+      });
+    };
 
     function findTaskIndexById(taskId) {
-      return tasks.findIndex((task) => task.id === taskId)
+      return tasks.findIndex(task => task.id === taskId);
     }
 
-    const toggleTaskDone = (taskId) => {
-      const taskIndex = findTaskIndexById(taskId)
+    const toggleTaskDone = taskId => {
+      const taskIndex = findTaskIndexById(taskId);
 
-      tasks[taskIndex].isDone = !tasks[taskIndex].isDone
-    }
+      tasks[taskIndex].isDone = !tasks[taskIndex].isDone;
+    };
 
-    const removeTask = (taskId) => {
-      if (confirm('Are you sure?')) {
-        tasks.splice(findTaskIndexById(taskId), 1)
+    const removeTask = taskId => {
+      if (confirm("Are you sure?")) {
+        tasks.splice(findTaskIndexById(taskId), 1);
       }
-    }
+    };
 
     return {
       tasks,
       addTask,
       toggleTaskDone,
       removeTask
-    }
+    };
   }
-}
+};
 </script>

@@ -8,11 +8,24 @@
       @click="toggleTaskDone(task.id)"
     >
       <span class="absolute top-0 left-0 p-3">
-        <font-awesome-icon v-if="task.isDone" class="text-green-300" size="lg" :icon="['fas', 'check-circle']" />
-        <font-awesome-icon v-else class="text-gray-500" size="lg" :icon="['far', 'check-circle']" />
+        <font-awesome-icon
+          v-if="task.isDone"
+          class="text-green-300"
+          size="lg"
+          :icon="['fas', 'check-circle']"
+        />
+        <font-awesome-icon
+          v-else
+          class="text-gray-500"
+          size="lg"
+          :icon="['far', 'check-circle']"
+        />
       </span>
       {{ task.name }}
-      <span class="absolute top-0 right-0 p-3" @click.stop="removeTask(task.id)">
+      <span
+        class="absolute top-0 right-0 p-3"
+        @click.stop="removeTask(task.id)"
+      >
         <font-awesome-icon class="text-red-600" icon="trash" />
       </span>
     </li>
@@ -21,26 +34,26 @@
 
 <script>
 export default {
-  name: 'ToDoInput',
-  emits: ['toggle', 'remove'],
+  name: "ToDoInput",
+  emits: ["toggle", "remove"],
   props: {
     tasks: {
       type: Array,
-      required: true,
+      required: true
     }
   },
   setup(props, { emit }) {
-    const toggleTaskDone = (taskId) => {
-      emit('toggle', taskId)
-    }
-    const removeTask = (taskId) => {
-      emit('remove', taskId)
-    }
+    const toggleTaskDone = taskId => {
+      emit("toggle", taskId);
+    };
+    const removeTask = taskId => {
+      emit("remove", taskId);
+    };
 
     return {
       toggleTaskDone,
       removeTask
-    }
+    };
   }
-}
+};
 </script>
