@@ -1,5 +1,5 @@
 <template>
-  <div class="w-96 mx-auto mt-24">
+  <div class="w-96 mx-auto p-4 md:mt-24">
     <to-do />
   </div>
 </template>
