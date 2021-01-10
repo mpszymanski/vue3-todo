@@ -9,7 +9,7 @@
     >
       <span class="absolute top-0 left-0 p-3">
         <font-awesome-icon v-if="task.isDone" class="text-green-300" size="lg" :icon="['fas', 'check-circle']" />
-        <font-awesome-icon v-else size="lg" class="text-gray-500" :icon="['far', 'check-circle']" />
+        <font-awesome-icon v-else class="text-gray-500" size="lg" :icon="['far', 'check-circle']" />
       </span>
       {{ task.name }}
     </li>
@@ -19,6 +19,7 @@
 <script>
 export default {
   name: 'ToDoInput',
+  emits: ['toggle'],
   props: {
     tasks: {
       type: Array,
