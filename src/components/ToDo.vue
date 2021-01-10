@@ -1,7 +1,12 @@
 <template>
   <h1 class="text-xl text-center font-bold">To do list</h1>
   <to-do-form class="mt-4" @submit="addTask" />
-  <to-do-list class="mt-4" :tasks="tasks" @toggle="toggleTaskDone" />
+  <to-do-list
+    class="mt-4"
+    :tasks="tasks"
+    @toggle="toggleTaskDone"
+    @remove="removeTask"
+  />
 </template>
 
 <script>
@@ -36,16 +41,27 @@ export default {
       })
     }
 
+    function findTaskIndexById(taskId) {
+      return tasks.findIndex((task) => task.id === taskId)
+    }
+
     const toggleTaskDone = (taskId) => {
-      const taskIndex = tasks.findIndex((task) => task.id === taskId)
+      const taskIndex = findTaskIndexById(taskId)
 
       tasks[taskIndex].isDone = !tasks[taskIndex].isDone
+    }
+
+    const removeTask = (taskId) => {
+      if (confirm('Are you sure?')) {
+        tasks.splice(findTaskIndexById(taskId), 1)
+      }
     }
 
     return {
       tasks,
       addTask,
       toggleTaskDone,
+      removeTask
     }
   }
 }
