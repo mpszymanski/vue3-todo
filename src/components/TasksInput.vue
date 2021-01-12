@@ -2,10 +2,10 @@
   <form @submit.prevent="handleFormSubmit">
     <!--suppress HtmlFormInputWithoutLabel -->
     <input
+      v-model="taskName"
       class="w-full border border-gray-300 rounded-lg p-2"
       type="text"
       placeholder="New To Do"
-      v-model="taskName"
       required
     />
   </form>
@@ -13,8 +13,9 @@
 
 <script>
 import { ref } from "vue";
+
 export default {
-  name: "ToDoForm",
+  name: "TasksInput",
   emits: ["submit"],
   setup(props, { emit }) {
     let taskName = ref("");

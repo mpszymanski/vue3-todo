@@ -1,33 +1,36 @@
 <template>
   <h1 class="text-xl text-center font-bold">To do list</h1>
-  <to-do-form class="mt-4" @submit="addTask" />
-  <to-do-list
-    class="mt-4"
-    :tasks="tasks"
-    @toggle="toggleTaskDone"
-    @remove="removeTask"
-  />
+  <tasks-input class="mt-4" @submit="addTask" />
+  <ul class="mt-4">
+    <tasks-item
+      v-for="task in tasks"
+      :key="task.id"
+      :task="task"
+      @toggle="toggleTaskDone"
+      @remove="removeTask"
+    />
+  </ul>
 </template>
 
 <script>
-import ToDoForm from "./ToDoForm.vue";
-import ToDoList from "./ToDoList.vue";
+import { v4 as uuid } from "uuid";
+import { reactive } from "vue";
 
-import { v4 as uuidv4 } from "uuid";
-import { reactive } from "@vue/reactivity";
+import TasksInput from "@/components/TasksInput";
+import TasksItem from "@/components/TasksItem";
 
 export default {
-  components: { ToDoForm, ToDoList },
-  name: "ToDo",
+  name: "Tasks",
+  components: { TasksItem, TasksInput },
   setup() {
     const tasks = reactive([
       {
-        id: uuidv4(),
+        id: uuid(),
         name: "Task 1",
         isDone: true
       },
       {
-        id: uuidv4(),
+        id: uuid(),
         name: "Task 2",
         isDone: false
       }
@@ -35,7 +38,7 @@ export default {
 
     const addTask = taskName => {
       tasks.push({
-        id: uuidv4(),
+        id: uuid(),
         name: taskName,
         isDone: false
       });

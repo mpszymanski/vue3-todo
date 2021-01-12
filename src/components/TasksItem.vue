@@ -1,11 +1,9 @@
 <template>
   <ul>
     <li
-      v-for="task in tasks"
-      :key="task.id"
       class="relative p-3 pl-12 border-gray-300 border-b cursor-pointer select-none last:border-b-0"
       :class="{ 'line-through': task.isDone }"
-      @click="toggleTaskDone(task.id)"
+      @click="toggleTaskDone"
     >
       <span class="absolute top-0 left-0 p-3">
         <font-awesome-icon
@@ -22,10 +20,7 @@
         />
       </span>
       {{ task.name }}
-      <span
-        class="absolute top-0 right-0 p-3"
-        @click.stop="removeTask(task.id)"
-      >
+      <span class="absolute top-0 right-0 p-3" @click.stop="removeTask">
         <font-awesome-icon class="text-red-600" icon="trash" />
       </span>
     </li>
@@ -34,20 +29,20 @@
 
 <script>
 export default {
-  name: "ToDoInput",
-  emits: ["toggle", "remove"],
+  name: "TasksItem",
   props: {
-    tasks: {
-      type: Array,
+    task: {
+      type: Object,
       required: true
     }
   },
+  emits: ["toggle", "remove"],
   setup(props, { emit }) {
-    const toggleTaskDone = taskId => {
-      emit("toggle", taskId);
+    const toggleTaskDone = () => {
+      emit("toggle", props.task.id);
     };
-    const removeTask = taskId => {
-      emit("remove", taskId);
+    const removeTask = () => {
+      emit("remove", props.task.id);
     };
 
     return {

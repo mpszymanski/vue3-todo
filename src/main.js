@@ -19,7 +19,7 @@ library.add(fasCheckCircle);
 library.add(farCheckCircle);
 library.add(faTrash);
 
-app.component("font-awesome-icon", FontAwesomeIcon);
+app.component("FontAwesomeIcon", FontAwesomeIcon);
 app.config.productionTip = false;
 
 app.mount("#app");
