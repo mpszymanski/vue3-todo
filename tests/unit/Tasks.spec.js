@@ -33,17 +33,27 @@ describe("Tasks.vue", () => {
   });
 
   it("toggle task status", async () => {
-    const wrapper = shallowMount(Tasks);
+    const wrapper = mount(Tasks);
 
     await flushPromises();
 
-    expect(wrapper.vm.state.tasks[0].isDone).toBeTruthy();
+    expect(
+      wrapper
+        .findAllComponents(TasksItem)[0]
+        .find('[data-test="task-is-done"]')
+        .exists()
+    ).toBeTruthy();
 
     wrapper
       .findAllComponents(TasksItem)[0]
       .vm.$emit("toggle", "55e4456c-37fd-417e-a09d-595c3cc6d624");
 
-    expect(wrapper.vm.state.tasks[0].isDone).toBeFalsy();
+    expect(
+      wrapper
+        .findAllComponents(TasksItem)[0]
+        .find('[data-test="task-is-not-done"]')
+        .exists()
+    ).toBeTruthy();
   });
 
   it("remove task with confirmation", async () => {
@@ -52,8 +62,6 @@ describe("Tasks.vue", () => {
     const wrapper = shallowMount(Tasks);
 
     await flushPromises();
-
-    expect(wrapper.vm.state.tasks[1]).toBeTruthy();
 
     wrapper
       .findAllComponents(TasksItem)[1]
@@ -77,8 +85,6 @@ describe("Tasks.vue", () => {
     const wrapper = shallowMount(Tasks);
 
     await flushPromises();
-
-    expect(wrapper.vm.state.tasks[1]).toBeTruthy();
 
     wrapper
       .findAllComponents(TasksItem)[1]
