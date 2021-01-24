@@ -3,6 +3,7 @@
     <li
       class="relative p-3 pl-12 border-gray-300 border-b cursor-pointer select-none last:border-b-0"
       :class="{ 'line-through': task.isDone }"
+      data-test="task"
       @click="toggleTaskDone"
     >
       <span class="absolute top-0 left-0 p-3">
@@ -20,7 +21,11 @@
         />
       </span>
       {{ task.name }}
-      <span class="absolute top-0 right-0 p-3" @click.stop="removeTask">
+      <span
+        class="absolute top-0 right-0 p-3"
+        data-test="remove-task-button"
+        @click.stop="removeTask"
+      >
         <font-awesome-icon class="text-red-600" icon="trash" />
       </span>
     </li>

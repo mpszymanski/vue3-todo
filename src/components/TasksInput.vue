@@ -21,8 +21,10 @@ export default {
     let taskName = ref("");
 
     const handleFormSubmit = () => {
-      emit("submit", taskName.value);
-      taskName.value = "";
+      if (taskName.value) {
+        emit("submit", taskName.value);
+        taskName.value = "";
+      }
     };
 
     return {

@@ -3,7 +3,7 @@
   <tasks-input class="mt-4" @submit="addTask" />
   <ul class="mt-4">
     <tasks-item
-      v-for="task in tasks"
+      v-for="task in state.tasks"
       :key="task.id"
       :task="task"
       @toggle="toggleTaskDone"
@@ -14,30 +14,31 @@
 
 <script>
 import { v4 as uuid } from "uuid";
-import { reactive } from "vue";
+import { reactive, toRefs, onMounted } from "vue";
 
 import TasksInput from "@/components/TasksInput";
 import TasksItem from "@/components/TasksItem";
+import tasksRepository from "@/repositories/tasksRepository";
 
 export default {
   name: "Tasks",
   components: { TasksItem, TasksInput },
   setup() {
-    const tasks = reactive([
-      {
-        id: uuid(),
-        name: "Task 1",
-        isDone: true
-      },
-      {
-        id: uuid(),
-        name: "Task 2",
-        isDone: false
+    const state = reactive({
+      tasks: []
+    });
+
+    const fetchTasks = async () => {
+      try {
+        const { data } = await tasksRepository.getTasks();
+        state.tasks = data;
+      } catch (error) {
+        console.error("We are unable to fetch tasks");
       }
-    ]);
+    };
 
     const addTask = taskName => {
-      tasks.push({
+      state.tasks.push({
         id: uuid(),
         name: taskName,
         isDone: false
@@ -45,23 +46,26 @@ export default {
     };
 
     function findTaskIndexById(taskId) {
-      return tasks.findIndex(task => task.id === taskId);
+      return state.tasks.findIndex(task => task.id === taskId);
     }
 
     const toggleTaskDone = taskId => {
+      const { tasks } = toRefs(state);
       const taskIndex = findTaskIndexById(taskId);
 
-      tasks[taskIndex].isDone = !tasks[taskIndex].isDone;
+      tasks.value[taskIndex].isDone = !tasks.value[taskIndex].isDone;
     };
 
     const removeTask = taskId => {
       if (confirm("Are you sure?")) {
-        tasks.splice(findTaskIndexById(taskId), 1);
+        state.tasks.splice(findTaskIndexById(taskId), 1);
       }
     };
 
+    onMounted(fetchTasks);
+
     return {
-      tasks,
+      state,
       addTask,
       toggleTaskDone,
       removeTask
