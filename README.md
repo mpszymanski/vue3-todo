@@ -1,4 +1,6 @@
-# todo
+# To Do List
+
+This is a simple example of Vue 3 use. The application is not connected with any backend API at the moment.
 
 ## Project setup
 ```
@@ -20,5 +22,12 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Run unit tests (Jest)
+```
+npm run test:unit
+```
+
+### Run e2e tests (Cypress)
+```
+npm run test:e2e
+```

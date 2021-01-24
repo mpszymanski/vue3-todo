@@ -5,13 +5,12 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent } from "vue";
 import Tasks from "./components/Tasks.vue";
 
-@Options({
+export default defineComponent({
   components: {
     Tasks
   }
-})
-export default class App extends Vue {}
+});
 </script>
