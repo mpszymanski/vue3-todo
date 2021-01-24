@@ -33,7 +33,7 @@ export default {
         const { data } = await tasksRepository.getTasks();
         state.tasks = data;
       } catch (error) {
-        console.error("We are unable to fetch tasks");
+        //
       }
     };
 
