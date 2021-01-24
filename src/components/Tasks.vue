@@ -1,7 +1,7 @@
 <template>
   <h1 class="text-xl text-center font-bold">To do list</h1>
   <tasks-input class="mt-4" @submit="addTask" />
-  <ul class="mt-4">
+  <ul class="mt-4" data-test="tasks-list">
     <tasks-item
       v-for="task in state.tasks"
       :key="task.id"

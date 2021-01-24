@@ -1,9 +1,10 @@
 <template>
-  <form @submit.prevent="handleFormSubmit">
+  <form data-test="task-form" @submit.prevent="handleFormSubmit">
     <!--suppress HtmlFormInputWithoutLabel -->
     <input
       v-model="taskName"
       class="w-full border border-gray-300 rounded-lg p-2"
+      data-test="task-input"
       type="text"
       placeholder="New To Do"
       required
