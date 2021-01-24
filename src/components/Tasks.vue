@@ -12,14 +12,14 @@
   </ul>
 </template>
 
-<script>
-import { onMounted } from "vue";
+<script lang="ts">
+import { onMounted, defineComponent } from "vue";
 
-import TasksInput from "@/components/TasksInput";
-import TasksItem from "@/components/TasksItem";
+import TasksInput from "@/components/TasksInput.vue";
+import TasksItem from "@/components/TasksItem.vue";
 import useTasks from "@/composables/useTasks";
 
-export default {
+export default defineComponent({
   name: "Tasks",
   components: { TasksItem, TasksInput },
   setup() {
@@ -41,5 +41,5 @@ export default {
       removeTask
     };
   }
-};
+});
 </script>

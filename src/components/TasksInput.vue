@@ -12,10 +12,10 @@
   </form>
 </template>
 
-<script>
-import { ref } from "vue";
+<script lang="ts">
+import { defineComponent, ref } from "vue";
 
-export default {
+export default defineComponent({
   name: "TasksInput",
   emits: ["submit"],
   setup(props, { emit }) {
@@ -33,5 +33,5 @@ export default {
       taskName
     };
   }
-};
+});
 </script>

@@ -20,6 +20,5 @@ library.add(farCheckCircle);
 library.add(faTrash);
 
 app.component("FontAwesomeIcon", FontAwesomeIcon);
-app.config.productionTip = false;
 
 app.mount("#app");

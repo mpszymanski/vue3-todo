@@ -32,8 +32,10 @@
   </li>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "TasksItem",
   props: {
     task: {
@@ -55,5 +57,5 @@ export default {
       removeTask
     };
   }
-};
+});
 </script>

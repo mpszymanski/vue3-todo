@@ -1,21 +1,21 @@
 import { ref } from "vue";
-import tasksRepository from "@/repositories/tasksRepository";
 import { v4 as uuid } from "uuid";
+import tasksRepository from "@/repositories/tasksRepository";
+import Task from "@/interfaces/Task";
 
 export default function useTasks() {
-  const tasks = ref([]);
+  const tasks = ref<Task[]>([]);
 
   const fetchTasks = async () => {
     try {
-      const { data } = await tasksRepository.getTasks();
-      tasks.value = data;
+      tasks.value = await tasksRepository.getTasks();
     } catch (error) {
       /* istanbul ignore next */
       console.error(error);
     }
   };
 
-  const addTask = taskName => {
+  const addTask = (taskName: string) => {
     tasks.value.push({
       id: uuid(),
       name: taskName,
@@ -23,19 +23,19 @@ export default function useTasks() {
     });
   };
 
-  const toggleTaskDone = taskId => {
+  const toggleTaskDone = (taskId: string) => {
     const taskIndex = findTaskIndexById(taskId);
 
     tasks.value[taskIndex].isDone = !tasks.value[taskIndex].isDone;
   };
 
-  const removeTask = taskId => {
+  const removeTask = (taskId: string) => {
     if (confirm("Are you sure?")) {
       tasks.value.splice(findTaskIndexById(taskId), 1);
     }
   };
 
-  function findTaskIndexById(taskId) {
+  function findTaskIndexById(taskId: string) {
     return tasks.value.findIndex(task => task.id === taskId);
   }
 

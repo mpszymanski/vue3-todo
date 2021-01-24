@@ -4,11 +4,14 @@
   </div>
 </template>
 
-<script>
-import Tasks from "@/components/Tasks";
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+import Tasks from "./components/Tasks.vue";
 
-export default {
-  name: "App",
-  components: { Tasks }
-};
+@Options({
+  components: {
+    Tasks
+  }
+})
+export default class App extends Vue {}
 </script>
