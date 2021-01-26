@@ -1,4 +1,4 @@
-import { flushPromises, mount, shallowMount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import { nextTick } from "vue";
 import Tasks from "@/components/Tasks.vue";
 import TasksItem from "@/components/TasksItem.vue";
@@ -12,6 +12,10 @@ const mockTask = {
   name: "foo",
   isDone: false
 };
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 describe("Tasks.vue", () => {
   it("renders tasks list", async () => {
