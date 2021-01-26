@@ -3,101 +3,75 @@ import { nextTick } from "vue";
 import Tasks from "@/components/Tasks.vue";
 import TasksItem from "@/components/TasksItem.vue";
 import TasksInput from "@/components/TasksInput.vue";
+import taskRepositoryStorage from "@/repositories/storage/taskRepositoryStorage";
 
-jest.mock("@/repositories/tasksRepository", () => ({
-  getTasks: jest.fn(() =>
-    Promise.resolve([
-      {
-        id: "55e4456c-37fd-417e-a09d-595c3cc6d624",
-        name: "Task 1",
-        isDone: true
-      },
-      {
-        id: "fd389d6a-ed23-48a9-b340-8065d5e391c5",
-        name: "Task 2",
-        isDone: false
-      }
-    ])
-  )
-}));
+jest.mock("@/repositories/storage/taskRepositoryStorage");
+
+const mockTask = {
+  id: "55e4456c-37fd-417e-a09d-595c3cc6d624",
+  name: "foo",
+  isDone: false
+};
 
 describe("Tasks.vue", () => {
   it("renders tasks list", async () => {
+    const spy = jest.spyOn(taskRepositoryStorage, "get");
     const wrapper = shallowMount(Tasks);
 
-    await flushPromises();
-
-    expect(wrapper.findAllComponents(TasksItem).length).toBe(2);
+    expect(spy).toHaveBeenCalled();
   });
 
   it("toggle task status", async () => {
-    const wrapper = mount(Tasks);
+    const spy = jest.spyOn(taskRepositoryStorage, "toggle");
+    const wrapper = shallowMount(Tasks);
 
-    await flushPromises();
+    wrapper.vm.tasks = [mockTask];
 
-    expect(
-      wrapper
-        .findAllComponents(TasksItem)[0]
-        .find('[data-test="task-is-done"]')
-        .exists()
-    ).toBeTruthy();
+    await nextTick();
 
-    wrapper
-      .findAllComponents(TasksItem)[0]
-      .vm.$emit("toggle", "55e4456c-37fd-417e-a09d-595c3cc6d624");
+    wrapper.findAllComponents(TasksItem)[0].vm.$emit("toggle", mockTask.id);
 
-    expect(
-      wrapper
-        .findAllComponents(TasksItem)[0]
-        .find('[data-test="task-is-not-done"]')
-        .exists()
-    ).toBeTruthy();
+    expect(spy).toHaveBeenCalledWith(mockTask.id);
   });
 
   it("remove task with confirmation", async () => {
     window.confirm = jest.fn(() => true);
 
+    const spy = jest.spyOn(taskRepositoryStorage, "remove");
     const wrapper = shallowMount(Tasks);
 
-    await flushPromises();
-
-    wrapper
-      .findAllComponents(TasksItem)[1]
-      .vm.$emit("remove", "fd389d6a-ed23-48a9-b340-8065d5e391c5");
+    wrapper.vm.tasks = [mockTask];
 
     await nextTick();
 
-    expect(wrapper.findAllComponents(TasksItem).length).toBe(1);
+    wrapper.findAllComponents(TasksItem)[0].vm.$emit("remove", mockTask.id);
+
+    expect(spy).toHaveBeenCalledWith(mockTask.id);
   });
 
   it("do not remove task without confirmation", async () => {
     window.confirm = jest.fn(() => false);
 
+    const spy = jest.spyOn(taskRepositoryStorage, "remove");
     const wrapper = shallowMount(Tasks);
 
-    await flushPromises();
-
-    wrapper
-      .findAllComponents(TasksItem)[1]
-      .vm.$emit("remove", "fd389d6a-ed23-48a9-b340-8065d5e391c5");
+    wrapper.vm.tasks = [mockTask];
 
     await nextTick();
 
-    expect(wrapper.findAllComponents(TasksItem).length).toBe(2);
+    wrapper.findAllComponents(TasksItem)[0].vm.$emit("remove", mockTask.id);
+
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it("add new task", async () => {
-    const wrapper = mount(Tasks);
+    const spy = jest.spyOn(taskRepositoryStorage, "create");
+    const wrapper = shallowMount(Tasks);
 
-    await flushPromises();
-
-    const taskName = "New task";
-
-    wrapper.findComponent(TasksInput).vm.$emit("submit", taskName);
+    wrapper.findComponent(TasksInput).vm.$emit("submit", mockTask.name);
 
     await nextTick();
 
-    expect(wrapper.findAllComponents(TasksItem).length).toBe(3);
-    expect(wrapper.findAllComponents(TasksItem)[2].text()).toBe(taskName);
+    expect(spy).toHaveBeenCalledWith({ isDone: false, name: "foo" });
   });
 });

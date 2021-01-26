@@ -1,43 +1,38 @@
 import { ref } from "vue";
-import { v4 as uuid } from "uuid";
-import tasksRepository from "@/repositories/tasksRepository";
+import tasksRepository from "@/repositories/storage/taskRepositoryStorage";
 import Task from "@/interfaces/Task";
 
 export default function useTasks() {
   const tasks = ref<Task[]>([]);
 
-  const fetchTasks = async () => {
-    try {
-      tasks.value = await tasksRepository.getTasks();
-    } catch (error) {
-      /* istanbul ignore next */
-      console.error(error);
-    }
+  const fetchTasks = (): void => {
+    tasks.value = tasksRepository.get();
   };
 
-  const addTask = (taskName: string) => {
-    tasks.value.push({
-      id: uuid(),
+  const addTask = (taskName: string): void => {
+    tasksRepository.create({
       name: taskName,
       isDone: false
     });
+
+    fetchTasks();
   };
 
-  const toggleTaskDone = (taskId: string) => {
-    const taskIndex = findTaskIndexById(taskId);
+  const toggleTaskDone = (taskId: string): void => {
+    tasksRepository.toggle(taskId);
 
-    tasks.value[taskIndex].isDone = !tasks.value[taskIndex].isDone;
+    fetchTasks();
   };
 
-  const removeTask = (taskId: string) => {
-    if (confirm("Are you sure?")) {
-      tasks.value.splice(findTaskIndexById(taskId), 1);
+  const removeTask = (taskId: string): void => {
+    if (!confirm("Are you sure?")) {
+      return;
     }
-  };
 
-  function findTaskIndexById(taskId: string) {
-    return tasks.value.findIndex(task => task.id === taskId);
-  }
+    tasksRepository.remove(taskId);
+
+    fetchTasks();
+  };
 
   return {
     tasks,
