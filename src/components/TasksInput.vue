@@ -3,10 +3,10 @@
     <!--suppress HtmlFormInputWithoutLabel -->
     <input
       v-model="taskName"
-      class="w-full border border-gray-300 rounded-lg p-2"
+      class="w-full rounded-lg p-2 placeholder-gray-500 border border-transparent text-white focus:text-white focus:border-gray-700 focus:outline-none focus:bg-white focus:bg-gray-900 bg-gray-200 bg-gray-800"
       data-test="task-input"
       type="text"
-      placeholder="New To Do"
+      placeholder="New task name"
       required
     />
   </form>

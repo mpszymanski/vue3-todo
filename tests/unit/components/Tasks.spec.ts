@@ -68,6 +68,36 @@ describe("Tasks.vue", () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
+  it("remove all tasks", async () => {
+    window.confirm = jest.fn(() => true);
+
+    const spy = jest.spyOn(taskRepositoryStorage, "removeAll");
+    const wrapper = shallowMount(Tasks);
+
+    wrapper.vm.tasks = [mockTask];
+
+    await nextTick();
+
+    wrapper.find('[data-test="remove-all-tasks-button"]').trigger("click");
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it("do not remove all tasks without confirmation", async () => {
+    window.confirm = jest.fn(() => false);
+
+    const spy = jest.spyOn(taskRepositoryStorage, "removeAll");
+    const wrapper = shallowMount(Tasks);
+
+    wrapper.vm.tasks = [mockTask];
+
+    await nextTick();
+
+    wrapper.find('[data-test="remove-all-tasks-button"]').trigger("click");
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it("add new task", async () => {
     const spy = jest.spyOn(taskRepositoryStorage, "create");
     const wrapper = shallowMount(Tasks);

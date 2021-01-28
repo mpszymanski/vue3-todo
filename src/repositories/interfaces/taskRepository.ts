@@ -5,4 +5,5 @@ export default interface taskRepository {
   create(task: Task): Task;
   toggle(taskId: string): Task;
   remove(taskId: string): void;
+  removeAll(): void;
 }

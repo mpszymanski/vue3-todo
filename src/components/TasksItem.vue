@@ -1,6 +1,6 @@
 <template>
   <li
-    class="relative p-3 pl-12 border-gray-300 border-b cursor-pointer select-none last:border-b-0"
+    class="relative p-3 pl-12 border-gray-700 border-b cursor-pointer select-none last:border-b-0"
     :class="{ 'line-through': task.isDone }"
     data-test="task"
     @click="toggleTaskDone"

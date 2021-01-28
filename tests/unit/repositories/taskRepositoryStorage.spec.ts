@@ -68,4 +68,12 @@ describe("taskRepositoryStorage.js", () => {
     expect(spyOnGetArray).toHaveBeenCalledWith("tasks");
     expect(spyOnStoreArray).toHaveBeenCalledWith("tasks", []);
   });
+
+  it("can toggle remove all tasks", () => {
+    const spyOnStoreArray = jest.spyOn(storageClient, "storeArray");
+
+    taskRepositoryStorage.removeAll();
+
+    expect(spyOnStoreArray).toHaveBeenCalledWith("tasks", []);
+  });
 });
