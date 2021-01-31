@@ -13,6 +13,9 @@ import {
 import { faCheckCircle as farCheckCircle } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
+// Service worker
+import "./registerServiceWorker";
+
 const app = createApp(App);
 
 library.add(fasCheckCircle);
